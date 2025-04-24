@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-mjrpro-light { background-color: #F9F5F2; }
+.text-mjrpro-dark { color: #4B2E39; }
+.text-mjrpro-accent { color: #C48EAF; }
+.hover\:bg-mjrpro-accent:hover { background-color: #C48EAF; }
+.hover\:text-mjrpro-light:hover { color: #F9F5F2; }
