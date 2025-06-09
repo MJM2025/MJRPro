@@ -1,50 +1,27 @@
-import React, { useState, useEffect } from 'react';
+const apiUrl = 'https://api.printful.com/products'; // Replace with your API endpoint
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImM2OWE1MWQyODA4MDZhOGFhYmJjOWYwZWM3NzY1YzNkZTM4NjU1YzI3NmUwMWExMjFkZTBkMjI4MTgwZGEzYjU4MjlmMjkyOTgzNDQ4NTlmIiwiaWF0IjoxNzQ5NDk5NDM0Ljg2MTI0MiwibmJmIjoxNzQ5NDk5NDM0Ljg2MTI0NSwiZXhwIjoxNzgxMDM1NDM0Ljg1NDIwNCwic3ViIjoiMjI1M3730giLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIiwidXNlci5pbmZvIl19.ofQyzfnkBA3BsPLAeHUmg_mfamwEKsk1vERRz_kXkCedmuE2up5lzkqeAVNQXWCPOlrexcE4G7qTDAvFre9DdMxoH74nmJEibitckaHuKXRNiyNvkXfTvjxj1wCYJ09Xj25-hMxYIwLOS7fp1iV5WXQXVhNjio28vhtLPuohOvAHdfmgJtA3kCIZfyJgKKeXbntfHV1UlxED-S_4v8X-fdszHeoW0Xlw1t-ofACkT7RcpBaWccILgJJfon6lSNHJGMlyT8M2oUZNmeexav4xagXQcWpmZ64yZIRqgq4N-uz0YSY9hDND-EH2U8IR5fNJOEPx0wsikkAayEuj2GnwNR0u_9ca6e1Agqlq1cQfrHwvtl4whTjdwluVkx_lqaRWXNDJO26-1JwZV9nIU0yekchq6ffaq5E8nXVxbnlKPaP7cL58iWVRrnmI848oIiYG2_a1ZdGem0pPl8XpunzOPaZHmOGJI8gLm66DcvVKsPWFMAPVvgTJ4qGoasXyJJtI3XVrvtXtJey2UR_Yg_vHbK8pfw-fsoeSLORMrZtdReW_iXsCNbbugpPm42Hlhz9GkutHFsQM7fVOHGkSmpK43IWztABjU1x7JoytBO-UPUgcCG62osweUZIfFjGJgR_ehmJ3wUha180vwELyg-I3-mfP7bvc3Y-SLBZQnvBb1SM';
 
-const FetchData = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+async function fetchProducts() {
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-  const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6ImFkMGExOWE0OWE0MTMzYzc1NjQwYjM0Y2I1MzYwMjkyNmM5MTdkOTU3ODZlYjg2NjdhZGMzYTAyNmM3OWZlOGU2OWE5MGJiNjFkMTEzZmY3IiwiaWF0IjoxNzQ1NTI0MjQyLjM2NzAxNSwibmJmIjoxNzQ1NTI0MjQyLjM2NzAxOCwiZXhwIjoxNzc3MDYwMjQyLjM0OTgxOCwic3ViIjoiMjI1MzczMDgiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cmlXRIsInByaW50X3Byb3ZpZGVycy5yZWFkIiwidXNlci5pbmZvIl19.JKTz_kNqpjXGoaXSFLXArHZhlYGS71Ji7svgNdtfaXcayYfpTbu0AXgchsi5sAvhlXmlvhARmRq8BmpY69mXOdGGytkphMCOjaM_eGLPWKjPJVM_yJ4L3dRX_39qSPcZgqqkZG8O721tRe1eY1dOxwIA2y4inzxiVCUJGprQTFnHlmv9dxTr-SAPAguJ3dYLKRMpd5k_0pf40RlMnugsd0hqPvB6iT0ZgQZIzv9fboQuEdFVoZgUF1YXP-Eu2M_Z6H0czM0vhN-r10PS75B6H3G589VQ-oLPlMCQVJ-vbPVHeb0B0b56v46nqIfiVNPG_-Lj79AogJ0n6SBWpfTepKsAzofvx1Ann09t4edDBSzDCn828bvIwZSkfUixBT1-EpfEB5fn-t-g0ouMqjSXp5oSgTHYCsav5HZ8UVNIMskBga5n7mmZsG6gLlnBX46DexIfD4vg5fp6YvjpW8ZXCjSdRba3xJBmcGnEsHHLZ_83LBPSPN58Rvexlc4w18n4d9aU_aCKL72Ld33EJ4m1vI34R_zMCFkPgDywKqpk24HnonG97gdpt3Kwmd9gA_UWBAPCkCW5_puMZUpYRWU8Jninpu7ybDZ7VqIU3clto3v57a-7J12zs0QcOV22CSQgHHwPCLkNpWWxDnSofY0t3uQT8TWKUrX8VJB1d4mF2Vc';
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://api.printify.com/v1/shops', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+    const data = await response.json();
+    console.log('Products:', data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+}
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const result = await response.json();
-        setData(result);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <div className="text-center mt-8 text-mjrpro-dark">Loading...</div>;
-  if (error) return <div className="text-center mt-8 text-red-500">Error: {error}</div>;
-
-  return (
-    <div className="max-w-7xl mx-auto mt-8">
-      <h2 className="text-2xl font-bold mb-4 text-mjrpro-dark">Shops Data</h2>
-      <pre className="bg-white p-4 rounded shadow">
-        {JSON.stringify(data, null, 2)}
-      </pre>
-    </div>
-  );
-};
-
-export default FetchData;
+// Run the function
+fetchProducts();
